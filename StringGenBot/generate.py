@@ -32,7 +32,7 @@ from telethon.errors import (
 )
 
 
-ask_ques = "**» ᴩʟᴇᴀsᴇ ᴄʜᴏᴏsᴇ ᴛʜᴇ ᴩʏᴛʜᴏɴ ʟɪʙʀᴀʀʏ ғᴏʀ ᴡʜɪᴄʜ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ɢᴇɴᴇʀᴀᴛᴇ sᴛʀɪɴɢ :**"
+ask_ques = "**Please choose which string you want to generate :**"
 buttons_ques = [
     [
         InlineKeyboardButton("ᴩʏʀᴏɢʀᴀᴍ", callback_data="pyrogram1"),
@@ -62,24 +62,24 @@ async def generate_session(bot: Client, msg: Message, telethon=False, old_pyro: 
             ty += " ᴠ2"
     if is_bot:
         ty += " ʙᴏᴛ"
-    await msg.reply(f"» ᴛʀʏɪɴɢ ᴛᴏ sᴛᴀʀᴛ **{ty}** sᴇssɪᴏɴ ɢᴇɴᴇʀᴀᴛᴏʀ...")
+    await msg.reply(f"» Trying to start **{ty}** string generator...")
     user_id = msg.chat.id
-    api_id_msg = await bot.ask(user_id, "» sᴛᴀʀᴛᴇᴅ sᴇssɪᴏɴ ɢᴇɴᴇʀᴀᴛɪᴏɴ ᴩʀᴏᴄᴇss...\n\nᴩʟᴇᴀsᴇ sᴇɴᴅ ʏᴏᴜʀ **ᴀᴩɪ_ɪᴅ** ᴛᴏ ᴩʀᴏᴄᴇᴇᴅ.", filters=filters.text)
+    api_id_msg = await bot.ask(user_id, "» Started string generating...\n\nPlease send your **ᴀᴩɪ_ɪᴅ** to proceed.", filters=filters.text)
     if await cancelled(api_id_msg):
         return
     try:
         api_id = int(api_id_msg.text)
     except ValueError:
-        await api_id_msg.reply("**ᴀᴩɪ_ɪᴅ** ᴍᴜsᴛ ʙᴇ ᴀɴ ɪɴᴛᴇɢᴇʀ, sᴛᴀʀᴛ ɢᴇɴᴇʀᴀᴛɪɴɢ ʏᴏᴜʀ sᴇssɪᴏɴ ᴀɢᴀɪɴ.", quote=True, reply_markup=InlineKeyboardMarkup(Data.generate_button))
+        await api_id_msg.reply("**ᴀᴩɪ_ɪᴅ** Must be an integer, start generate your string session again...", quote=True, reply_markup=InlineKeyboardMarkup(Data.generate_button))
         return
-    api_hash_msg = await bot.ask(user_id, "» ɴᴏᴡ ᴩʟᴇᴀsᴇ sᴇɴᴅ ʏᴏᴜʀ **ᴀᴩɪ_ʜᴀsʜ** ᴛᴏ ᴄᴏɴᴛɪɴᴜᴇ", filters=filters.text)
+    api_hash_msg = await bot.ask(user_id, "» Now please send me your **ᴀᴩɪ_ʜᴀsʜ** to continue generating...", filters=filters.text)
     if await cancelled(api_hash_msg):
         return
     api_hash = api_hash_msg.text
     if not is_bot:
-        t = "» ᴩʟᴇᴀsᴇ sᴇɴᴅ ʏᴏᴜʀ **ᴩʜᴏɴᴇ_ɴᴜᴍʙᴇʀ** ᴡɪᴛʜ ᴄᴏᴜɴᴛʀʏ ᴄᴏᴅᴇ ғᴏʀ ᴡʜɪᴄʜ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ɢᴇɴᴇʀᴀᴛᴇ sᴇssɪᴏɴ. \nᴇxᴀᴍᴩʟᴇ : `+910000000000`'"
+        t = "» Send me your **ᴩʜᴏɴᴇ_ɴᴜᴍʙᴇʀ** with country code.\nEXAMPLE : `+10000000000`'"
     else:
-        t = "ᴩʟᴇᴀsᴇ sᴇɴᴅ ʏᴏᴜʀ **ʙᴏᴛ_ᴛᴏᴋᴇɴ** ᴛᴏ ᴄᴏɴᴛɪɴᴜᴇ.\nᴇxᴀᴍᴩʟᴇ : `5432198765:abcdanonymousterabaaplol`'"
+        t = "Send me your **ʙᴏᴛ_ᴛᴏᴋᴇɴ** to continue.\nEXAMPLE : `5432198765:abcdanonymousterabaaplol`'"
     phone_number_msg = await bot.ask(user_id, t, filters=filters.text)
     if await cancelled(phone_number_msg):
         return
@@ -160,7 +160,7 @@ async def generate_session(bot: Client, msg: Message, telethon=False, old_pyro: 
         string_session = client.session.save()
     else:
         string_session = await client.export_session_string()
-    text = f"**ᴛʜɪs ɪs ʏᴏᴜʀ {ty} sᴛʀɪɴɢ sᴇssɪᴏɴ** \n\n`{string_session}` \n\n**ɢᴇɴᴇʀᴀᴛᴇᴅ ʙʏ :** @StringFatherBot\n🍒 **ɴᴏᴛᴇ :** ᴅᴏɴ'ᴛ sʜᴀʀᴇ ɪᴛ ᴡɪᴛʜ ʏᴏᴜʀ ɢɪʀʟғʀɪᴇɴᴅ 🍑 ᴀɴᴅ ᴅᴏɴ'ᴛ ғᴏʀɢᴇᴛ ᴛᴏ ᴊᴏɪɴ @DevilsHeavenMF 🥺"
+    text = f"**ᴛʜɪs ɪs ʏᴏᴜʀ {ty} sᴛʀɪɴɢ sᴇssɪᴏɴ** \n\n`{string_session}` \n\n**ɢᴇɴᴇʀᴀᴛᴇᴅ ʙʏ :** @makestringgenbot\n**Note :** Do not share the string session or your account will be hacked!"
     try:
         if not is_bot:
             await client.send_message("me", text)
@@ -169,7 +169,7 @@ async def generate_session(bot: Client, msg: Message, telethon=False, old_pyro: 
     except KeyError:
         pass
     await client.disconnect()
-    await bot.send_message(msg.chat.id, "» sᴜᴄᴄᴇssғᴜʟʟʏ ɢᴇɴᴇʀᴀᴛᴇᴅ ʏᴏᴜʀ {} sᴛʀɪɴɢ sᴇssɪᴏɴ.\n\nᴩʟᴇᴀsᴇ ᴄʜᴇᴄᴋ ʏᴏᴜʀ sᴀᴠᴇᴅ ᴍᴇssᴀɢᴇs ᴛᴏ ɢᴇᴛ ɪᴛ ! \n\n**ᴀ sᴛʀɪɴɢ ɢᴇɴᴇʀᴀᴛᴏʀ ʙᴏᴛ ʙʏ** @DevilsHeavenMF 🥺".format("ᴛᴇʟᴇᴛʜᴏɴ" if telethon else "ᴩʏʀᴏɢʀᴀᴍ"))
+    await bot.send_message(msg.chat.id, "» sᴜᴄᴄᴇssғᴜʟʟʏ ɢᴇɴᴇʀᴀᴛᴇᴅ ʏᴏᴜʀ {} sᴛʀɪɴɢ sᴇssɪᴏɴ.\n\nᴩʟᴇᴀsᴇ ᴄʜᴇᴄᴋ ʏᴏᴜʀ sᴀᴠᴇᴅ ᴍᴇssᴀɢᴇs ᴛᴏ ɢᴇᴛ ɪᴛ ! \n\n**ᴀ sᴛʀɪɴɢ ɢᴇɴᴇʀᴀᴛᴏʀ ʙᴏᴛ ʙʏ** @IMLUCIFER404".format("ᴛᴇʟᴇᴛʜᴏɴ" if telethon else "ᴩʏʀᴏɢʀᴀᴍ"))
 
 
 async def cancelled(msg):
